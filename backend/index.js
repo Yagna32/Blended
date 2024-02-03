@@ -75,21 +75,20 @@ app.post('/signup',async(req,res)=>{
         })
     }
     let cart = {}
-    for (let index = 0; index < 300; index++) {
-        cart[index] = 0;
-    }
+    cart[0] = 0;
+    console.log(req.body)
 
-    const user = new User({
+    const newUser = new User({
         name:req.body.username,
         email:req.body.email,
         password:req.body.password,
         cartData: cart
     })
-
-    await user.save();
+    console.log('after new')
+    await newUser.save();
     const data = {
         user:{
-            id:user.id
+            id:newUser.id
         }
     }
 
@@ -98,6 +97,8 @@ app.post('/signup',async(req,res)=>{
         success: true,
         token
     })
+    console.log('after token')
+
 })
 
 app.post('/login',async(req,res)=>{
