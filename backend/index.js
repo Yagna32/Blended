@@ -131,7 +131,7 @@ app.post('/login',async(req,res)=>{
 
 app.get('/newCollections',async(req,res)=>{
     let products = await Product.find();
-    let newCollections = products.slice(1).slice(-8);
+    let newCollections = products.slice(0).slice(-8);
     res.send(newCollections);  
 })
 
@@ -167,7 +167,7 @@ app.post('/addtoCart',fetchUser,async(req,res)=>{
     await User.findOneAndUpdate(
         {_id:req.user.id},{cartData: userData.cartData}
         )
-    res.send("Added")
+    res.send(userData)
 })  
 
 app.post('/removeFromCart',fetchUser,async(req,res)=>{
@@ -176,12 +176,19 @@ app.post('/removeFromCart',fetchUser,async(req,res)=>{
     await User.findOneAndUpdate(
         {_id:req.user.id},{cartData: userData.cartData}
         )
-    res.send("Removed")
+
+    res.send(userData)
 })
 
 app.post('/getCart',fetchUser,async(req,res)=>{
-    let userData = await User.findOne({id: req.user.id})
-    res.json(userData.cartData)
+    let userData = await User.findOne({_id: req.user.id})
+    if(userData)
+    {
+        res.json(userData.cartData)
+        return;
+    }
+    res.send({})
+
 })
 // Image Storage Engine
 
