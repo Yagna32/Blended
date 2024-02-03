@@ -34,6 +34,8 @@ app.post('/addProduct',async(req,res)=>{
     else {
         id=1;
     }
+    console.log(req.body);
+    console.log('body');
     const product = new Product({
         id:id,
         name:req.body.name,
