@@ -45,7 +45,7 @@ const AddProduct = () => {
                 },
                 body:JSON.stringify(product)
             }).then((res)=>res.json()).then((data)=>{
-                data.success ? alert("Product Added"):alert('Failed')
+                data.success ? setTimeout(alert("product added"),3000):alert('Failed')
             })
         }
 
