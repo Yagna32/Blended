@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import './Popular.css'
 import Item from '../Item/Item'
-import data_product from '../Assets/data'
 const Popular = () => {
 
     const [popularProducts,setPopularProducts] = useState([]);
