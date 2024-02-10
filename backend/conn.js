@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const {db} = require('./configs/keys')
 
-mongoose.connect(process.env.MONGO_DB_URL)
+mongoose.connect(db.MONGO_URI)
 .then(()=>{
     console.log("Database is Connected!!")
 })
