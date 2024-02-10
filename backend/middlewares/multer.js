@@ -1,5 +1,5 @@
 const multer = require('multer')
-
+const path = require('path')
 
 // Image Storage Engine
 
@@ -12,6 +12,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage})
 
-const singleUpload = upload.single('product')
-
-module.exports =  singleUpload;
+module.exports = upload

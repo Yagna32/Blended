@@ -1,4 +1,5 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const router = express.Router()
 
 const User = require('../../models/Users')
@@ -20,7 +21,7 @@ router.post('/signup',async(req,res)=>{
         password:req.body.password,
         cartData: cart
     })
-    console.log('after new')
+    console.log(newUser)
     await newUser.save();
     const data = {
         user:{

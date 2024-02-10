@@ -1,8 +1,11 @@
 const express = require('express')
+const path = require('path')
 const router = express.Router();
 
 const Product = require('../../models/Product')
-const singleUpload = require('../../middlewares/multer')
+
+const {port} = require('../../configs/keys');
+const upload = require('../../middlewares/multer');
 
 router.post('/addProduct',async(req,res)=>{
     let products = await Product.find({});
@@ -58,11 +61,13 @@ router.get('/popular/:category',async(req,res)=>{
 })
 
 //Creating upload enpoint for images
-router.use('/images',express.static('upload/images'));
-router.post('/upload',singleUpload,(req,res)=>{
+const uploadsPath = path.resolve(__dirname, '../../upload/images'); // Adjust the path as needed
+console.log(uploadsPath)
+router.use('/images',express.static(uploadsPath));
+router.post('/upload',upload.single('product'),(req,res)=>{
     res.json({
         success:1,
-        image_url:`http://localhost:${port}/images/${req.file.filename}`
+        image_url:`http://localhost:${port}/api/v1/Product/images/${req.file.filename}`
     })
 })
 

@@ -5,8 +5,7 @@ const userSchema = mongoose.Schema({
         type: String
     },
     email:{
-        type: String,
-        unique: true
+        type: String
     },
     password: {
         type: String
@@ -20,6 +19,5 @@ const userSchema = mongoose.Schema({
     }
 })
 
-mongoose.pluralize(false)
 const User = mongoose.model("Users",userSchema);
 module.exports = User
