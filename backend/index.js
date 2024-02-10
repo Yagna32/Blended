@@ -1,22 +1,21 @@
+require('dotenv').config();
+require('./conn');
+
 const express = require('express');
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
 
-require('./conn');
 const Product = require('./models/Product')
 const User = require('./models/Users')
+
 
 const app = express();
 const port = 4000;
 
 app.use(express.json());
 app.use(cors());
-
-//Database Connection string 
-//mongodb+srv://Yagna32:<password>@cluster0.mnriumm.mongodb.net/
 
 
 app.get('/',(req,res)=>{
@@ -111,7 +110,7 @@ app.post('/login',async(req,res)=>{
                     id: user.id
                 }
             } 
-            const token = jwt.sign(data,'secret_ecom');
+            const token = jwt.sign(data,process.env.SECRET_TOKEN);
             res.json({success:true,token})
         }
         else {
@@ -150,7 +149,7 @@ const fetchUser = async(req,res,next) => {
     }
     else {
         try {
-            const data = jwt.verify(token,'secret_ecom');
+            const data = jwt.verify(token,process.env.SECRET_TOKEN);
             req.user = data.user;
             next();
         } catch(error) {
