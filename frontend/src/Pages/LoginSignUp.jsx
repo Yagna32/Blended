@@ -14,10 +14,9 @@ export const LoginSignUp = () => {
   }
 
   const login = async() =>{
-    console.log("Login called",formData)
     let responseData;
 
-    await fetch('http://localhost:4000/login',{
+    await fetch('http://localhost:4000/api/v1/login',{
       method: 'POST',
       headers:{
         Accept:'application/json',
@@ -33,15 +32,14 @@ export const LoginSignUp = () => {
       window.location.replace('/');
     }
     else{
-      alert(responseData.errors);
+      alert(responseData.error);
     }
   }
 
   const signup = async()=>{
-    console.log("signup called",formData)
     let responseData;
 
-    await fetch('http://localhost:4000/signup',{
+    await fetch('http://localhost:4000/api/v1/signup',{
       method: 'POST',
       headers:{
         Accept:'application/json',
