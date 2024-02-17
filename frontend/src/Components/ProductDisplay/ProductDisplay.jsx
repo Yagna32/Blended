@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './ProductDisplay.css'
 import star_icon from '../Assets/star_icon.png'
 import star_dull_icon from '../Assets/star_dull_icon.png'
@@ -6,18 +6,23 @@ import { ShopContext } from '../../Context/ShopContext'
 
 const ProductDisplay = (props) => {
     const {product} = props;
+    const [mainImage,setMainImage] = useState(product.image[0])
     const {addToCart} = useContext(ShopContext);
+    function changeImageHandler(e) {
+        setMainImage(e.target.src);
+    }
   return (
     <div className='productdisplay'>
         <div className="productdisplay-left">
             <div className="productdisplay-img-list">
+                {product.image.map((item)=><img key={item} onClick={changeImageHandler} src={item} alt='product images'/>)}
+                {/* <img src={product.image} alt="" />
                 <img src={product.image} alt="" />
                 <img src={product.image} alt="" />
-                <img src={product.image} alt="" />
-                <img src={product.image} alt="" />
+                <img src={product.image} alt="" /> */}
             </div>
             <div className="productdisplay-img">
-                <img src={product.image} alt="" className="productdisplay-main-img" />
+                <img src={mainImage} alt="" className="productdisplay-main-img" />
             </div>
         </div>
         <div className="productdisplay-right">

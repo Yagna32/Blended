@@ -29,6 +29,7 @@ const Navbar = () => {
             <li onClick={()=>{setMenu("Kids")}}><Link to='/Kids' style={{textDecoration:'none'}}>Kids</Link>{menu==="Kids" ? <hr/>:undefined}</li>
         </ul>
         <div className="nav-login-cart">
+            <a href="http://localhost:5173/" target='_blank' rel="noreferrer">Admin Panel</a>
             {localStorage.getItem('auth-token')
             ?<button onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}>Logout</button>
             :<Link to='/Login'><button>Login</button></Link>

@@ -21,7 +21,7 @@ const CartItems = () => {
                 return (
             <div key={i.id}>
                 <div className="cartitems-format cartitems-format-main">
-                    <img src={i.image} className='carticon-product-icon'alt="" />
+                    <img src={i.image[0]} className='carticon-product-icon'alt="" />
                     <p>{i.name}</p>
                     <p>${i.new_price}</p>
                     <button className='cartitems-quantity'> {ctxValue.cartItems[i.id]}</button>
