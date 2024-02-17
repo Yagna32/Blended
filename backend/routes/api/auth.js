@@ -12,14 +12,10 @@ router.post('/signup',async(req,res)=>{
             errors:"Email is already in use"
         })
     }
-    let cart = {}
-    cart[0] = 0;
-
     const newUser = new User({
         name:req.body.username,
         email:req.body.email,
-        password:req.body.password,
-        cartData: cart
+        password:req.body.password
     })
 
     await newUser.save();

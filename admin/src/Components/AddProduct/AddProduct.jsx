@@ -7,6 +7,7 @@ const AddProduct = () => {
     const [productDetails,setProductDetails] = useState({
         name:"",
         image:[],
+        description:"",
         category:"women",
         new_price:'',
         old_price: ''
@@ -50,7 +51,7 @@ const AddProduct = () => {
                 },
                 body:JSON.stringify(product)
             }).then((res)=>res.json()).then((data)=>{
-                data.success ? setTimeout(alert("product added"),3000):alert('Failed')
+                data.success ? <dialog>Product added</dialog>:alert('Failed')
             })
         }
 
@@ -60,7 +61,9 @@ const AddProduct = () => {
     <div className='add-product'>
         <div className="addproduct-itemfield">
             <p>Product Title</p>
-            <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here'/>
+            <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Men Casual Shirt'/>
+            <p>Description</p>
+            <input value={productDetails.description} onChange={changeHandler} type='text' name='description' placeholder='White solid casual shirt'/>
         </div>
         <div className="addproduct-price">
             <div className="addproduct-itemfield">

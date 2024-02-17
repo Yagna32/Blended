@@ -6,24 +6,14 @@ const Product = require('../../models/Product')
 
 const {port} = require('../../configs/keys');
 const upload = require('../../middlewares/multer');
-const { fileURLToPath } = require('url');
+
 
 router.post('/addProduct',async(req,res)=>{
-    let products = await Product.find({});
-    let id;
-    if(products.length > 0) {
-        let last_product_array = products.slice(-1);
-        let last_product = last_product_array[0];
-        id = last_product.id + 1;
-    }
-    else {
-        id=1;
-    }
-    console.log(req.body);
     const product = new Product({
-        id:id,
+        id:Date.now(),
         name:req.body.name,
         image:req.body.image,
+        description:req.body.description,
         category:req.body.category,
         new_price:req.body.new_price,
         old_price:req.body.old_price
@@ -31,7 +21,8 @@ router.post('/addProduct',async(req,res)=>{
     await product.save();
     res.json({
         success: true,
-        name:req.body.name
+        id:product.id,
+        name:product.name
     })
 })
 
@@ -63,7 +54,6 @@ router.get('/popular/:category',async(req,res)=>{
 
 //Creating upload enpoint for images
 const uploadsPath = path.resolve(__dirname, '../../upload/images'); // Adjust the path as needed
-console.log(uploadsPath)
 router.use('/images',express.static(uploadsPath));
 router.post('/upload',upload.array('product',4),(req,res)=>{
     var image_urls = []

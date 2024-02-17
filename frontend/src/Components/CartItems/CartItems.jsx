@@ -16,17 +16,17 @@ const CartItems = () => {
             <p>Remove</p>
         </div>
         <hr />
-        {ctxValue.all_product.map((i)=>{
-            if(ctxValue.cartItems[i.id]>0){
+        {ctxValue.all_product.map((item1)=>{
+            if(ctxValue.cartItems.find(item2=>item1.id === item2.product_id)){
                 return (
-            <div key={i.id}>
+            <div key={item1.id}>
                 <div className="cartitems-format cartitems-format-main">
-                    <img src={i.image[0]} className='carticon-product-icon'alt="" />
-                    <p>{i.name}</p>
-                    <p>${i.new_price}</p>
-                    <button className='cartitems-quantity'> {ctxValue.cartItems[i.id]}</button>
-                    <p>${i.new_price*ctxValue.cartItems[i.id]}</p>
-                    <img className='cartitems-remove-icon'src={remove_icon} onClick={()=>{ctxValue.removeFromCart(i.id)}}alt="" />
+                    <img src={item1.image[0]} className='carticon-product-icon'alt="" />
+                    <p>{item1.name}</p>
+                    <p>${item1.new_price}</p>
+                    <button className='cartitems-quantity'> {ctxValue.getQuantity(item1.id)}</button>
+                    <p>${item1.new_price*ctxValue.getQuantity(item1.id)}</p>
+                    <img className='cartitems-remove-icon'src={remove_icon} onClick={()=>{ctxValue.removeFromCart(item1.id,item1.new_price)}}alt="" />
                 </div>
             </div>
                 )

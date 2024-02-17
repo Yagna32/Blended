@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
     id:{
@@ -12,6 +12,10 @@ const productSchema = mongoose.Schema({
     image: {
         type:Array,
         required:true   
+    },
+    description: {
+        type: String,
+        retquired: true
     },
     category: {
         type:String,
@@ -32,8 +36,17 @@ const productSchema = mongoose.Schema({
     available: {
         type: Boolean,
         default: true
+    },
+    totalReviews: {
+        type: Number,
+        default: 0
+    },
+    ratings: {
+        type: Number,
+        default: 0
     }
 })
+
 mongoose.pluralize(false)
 const Product = mongoose.model("Product",productSchema);
 
