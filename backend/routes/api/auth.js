@@ -21,7 +21,7 @@ router.post('/signup',async(req,res)=>{
         password:req.body.password,
         cartData: cart
     })
-    console.log(newUser)
+
     await newUser.save();
     const data = {
         user:{

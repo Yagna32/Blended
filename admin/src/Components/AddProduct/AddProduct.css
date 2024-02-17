@@ -13,6 +13,15 @@
     color: #7b7b7b;
     font-size: 16px;
 }
+.addproduct-itemfield label {
+    display: flex;
+}
+.addproduct-itemfield label img{
+    height: 200px;
+    width: 150px;
+    padding: 10px;
+}
+
 .addproduct-itemfield input{
     box-sizing: border-box;
     width: 100%;
@@ -69,4 +78,31 @@
         margin: 20px;
     }
     
+    .addproduct-itemfield label {
+        display: flex;
+    }
+    .addproduct-itemfield label img{
+        height: 30%;
+        width: 20%;
+        padding: 5px;
+    }
+
+}
+
+@media (max-width:500px) {
+    .add-product{
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
+    
+    .addproduct-itemfield label {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .addproduct-itemfield label img{
+        height: 95%;
+        width: 95%;
+    }
+
 }

@@ -3,16 +3,18 @@ import './AddProduct.css'
 import upload_area from '../../assets/upload_area.svg'
 
 const AddProduct = () => {
-    const [image,setImage] = useState(false);
+    const [image,setImage] = useState([]);
     const [productDetails,setProductDetails] = useState({
         name:"",
-        image:'',
+        image:[],
         category:"women",
         new_price:'',
         old_price: ''
     })
     const imageHandler = (e) => {
-        setImage(e.target.files[0]);
+        const images = Array.from(e.target.files).slice(0,4);
+        console.log(images)
+        setImage(images);
     }
 
     const changeHandler= (e) =>{
@@ -24,7 +26,10 @@ const AddProduct = () => {
         let product = productDetails;
 
         let formData = new FormData();
-        formData.append('product',image);
+        image.forEach((file) => {
+            formData.append(`product`, file);
+          });
+        // formData.append('product',image);
 
         await fetch('http://localhost:4000/api/v1/Product/upload',{
             method: 'POST',
@@ -35,7 +40,7 @@ const AddProduct = () => {
         }).then((res)=>res.json()).then((data)=>{responseData=data})
         
         if(responseData.success){
-            product.image = responseData.image_url;
+            product.image = responseData.image_urls;
             console.log(JSON.stringify(product))
             await fetch('http://localhost:4000/api/v1/Product/addProduct',{
                 method: 'POST',
@@ -77,9 +82,14 @@ const AddProduct = () => {
         </div>
         <div className="addproduct-itemfield">
             <label htmlFor="file-input">
-                <img src={image ? URL.createObjectURL(image):upload_area} className='addproduct-thumnail-img' alt="" />
+            {image[0] ? image.map((item) => (
+            <img key={item.name} src={URL.createObjectURL(item)} alt="" />)) : 
+            (<img src={upload_area} alt="" />)}
+
+                 {/*  src={showImage ? URL.createObjectURL(showImage):upload_area} 
+                 className='addproduct-thumnail-img' alt="" /> */}
             </label>
-            <input onChange={imageHandler} type="file" name='image' id='file-input' hidden />
+            <input onChange={imageHandler} type="file" name='image' id='file-input' accept=".jpg,.jpeg,.png" multiple hidden/>
         </div>
         <button onClick={()=>{Add_Product()}}className='addproduct-btn'>ADD</button>
     </div>

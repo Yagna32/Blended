@@ -6,6 +6,7 @@ const Product = require('../../models/Product')
 
 const {port} = require('../../configs/keys');
 const upload = require('../../middlewares/multer');
+const { fileURLToPath } = require('url');
 
 router.post('/addProduct',async(req,res)=>{
     let products = await Product.find({});
@@ -64,10 +65,15 @@ router.get('/popular/:category',async(req,res)=>{
 const uploadsPath = path.resolve(__dirname, '../../upload/images'); // Adjust the path as needed
 console.log(uploadsPath)
 router.use('/images',express.static(uploadsPath));
-router.post('/upload',upload.single('product'),(req,res)=>{
+router.post('/upload',upload.array('product',4),(req,res)=>{
+    var image_urls = []
+    req.files.forEach((file)=>{
+        image_urls.push(`http://localhost:${port}/api/v1/Product/images/${file.filename}`)
+    })
+    console.log(image_urls);
     res.json({
         success:1,
-        image_url:`http://localhost:${port}/api/v1/Product/images/${req.file.filename}`
+        image_urls
     })
 })
 
