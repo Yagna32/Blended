@@ -6,10 +6,11 @@
     align-items: center;
 }
 
-.nav-logo {
+.nav-link{
     display: flex;
     align-items: center;
     gap: 10px;
+    text-decoration: none;
 }
 
 .nav-logo p {
