@@ -1,4 +1,3 @@
-const createHttpError = require("http-errors")
 const jwt = require("jsonwebtoken")
 
 const fetchUser = async(req,res,next) => {

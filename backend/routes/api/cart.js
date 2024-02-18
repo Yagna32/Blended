@@ -65,7 +65,7 @@ router.post('/removeFromCart',Authenticate,async(req,res)=>{
 
 //     res.send(userData.cartData)
 // })
-router.post('/getCart',Authenticate,async(req,res)=>{
+router.get('/getCart',Authenticate,async(req,res)=>{
     let userData = await User.findOne({email: req.user.email})
     if(userData)
     {

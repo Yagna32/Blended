@@ -1,22 +1,20 @@
 const jwt = require('jsonwebtoken')
-
+const {jwtKeys}= require('../configs/keys')
 const verifyAccessToken = async (token) => {
     try {
-        const payload = await jwt.verify(token, 'abc');
+        const payload = await jwt.verify(token, jwtKeys.ACCESS_TOKEN);
         return payload;
     } catch (error) {
-        console.log(error);
-        const message = error.message === 'JsonWebTokenError' ? 'Unauthorized' : error.message;
         return false;
     }
 }
 const verifyRefreshToken= async (refreshToken) => {
     try {
-        const payload = await jwt.verify(refreshToken, 'xyz');
+        const payload = await jwt.verify(refreshToken, jwtKeys.REFRESH_TOKEN);
         return payload;
     } catch (error) {
-        console.error(error);
-        throw new Error("Unauthorized");
+        const Unauthorizederror = new Error("Unauthorized");
+        throw Unauthorizederror
     }
 }
 
@@ -25,9 +23,9 @@ const signAccessToken= async (user) => {
         const payload = {
             email: user.email
         };
-        const token = await jwt.sign(payload,'abc', {
-            expiresIn: "360s",
-            issuer: "https://github.com/Yagna32"
+        const token = await jwt.sign(payload,jwtKeys.ACCESS_TOKEN, {
+            expiresIn: jwtKeys.accesstokenLife,
+            issuer: jwtKeys.issuer
         });
         return token;
     } catch (error) {
@@ -35,14 +33,15 @@ const signAccessToken= async (user) => {
         throw new Error("Internal Server Error");
     }
 }
+
 const signRefreshToken= async (user) => {
     try {
         const payload = {
             email: user.email
         };
-        const token = await jwt.sign(payload, 'xyz', {
-            expiresIn: "7d",
-            issuer: "https://github.com/Yagna32"
+        const token = await jwt.sign(payload, jwtKeys.REFRESH_TOKEN, {
+            expiresIn: jwtKeys.refreshtokenLife,
+            issuer: jwtKeys.issuer
         });
         return token;
     } catch (error) {
@@ -69,6 +68,7 @@ const Authenticate = async (req, res, next) => {
         }
         else {
              refresh_payload = await verifyRefreshToken(refresh_token);
+
         }
         if(access_payload === false && refresh_payload) {
             const access_token = await signAccessToken(refresh_payload);

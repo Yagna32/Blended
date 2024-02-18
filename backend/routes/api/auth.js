@@ -1,5 +1,4 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
 const router = express.Router()
 const {signAccessToken,signRefreshToken} = require('../../middlewares/tempAuth')
 const User = require('../../models/Users')
@@ -32,7 +31,7 @@ router.post('/signup',async(req,res)=>{
 router.post('/login',async(req,res)=>{
     let user = await User.findOne({email:req.body.email})
     if(user) {
-        const validPass = req.body.password === user.password;
+        const validPass = await user.isvalidPass(req.body.password)
         if(validPass){
             const newUser = {
                 name:req.body.username,
