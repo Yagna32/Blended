@@ -13,7 +13,6 @@ const {Authenticate} = require('../../middlewares/tempAuth')
 //     res.send(userCartData.cartData)
 // })  
 router.post('/addtoCart',Authenticate,async(req,res)=>{
-    let userData = await User.findOne({email:req.user.email});
     const userCartData = await User.findOneAndUpdate({email:req.user.email},
             {$push: {cartData: {product_id: req.body.itemId,price:req.body.price}}},
             {new:true}
@@ -24,25 +23,31 @@ router.post('/addtoCart',Authenticate,async(req,res)=>{
 
 
 router.post('/removeFromCart',Authenticate,async(req,res)=>{
-    console.log(req.user)
+    var access_token=null;
+    var refresh_token=null;
+    if(req.access_token){
+        access_token = req.access_token
+    }
+    if(req.refresh_token){
+        refresh_token=req.refresh_token
+    }
     let userData = await User.findOne({email:req.user.email});
-    console.log(userData)
     let checkQuantity = await User.findOne({email:req.user.email,cartData: {product_id: req.body.itemId,price:req.body.price}})
-    console.log(checkQuantity)
     if(checkQuantity && checkQuantity.cartData.length > 0){
         checkQuantity = checkQuantity.cartData;
-        console.log(checkQuantity)
         checkQuantity.pop();
-        console.log(checkQuantity)
     }
-    userData = await User.findOneAndUpdate(
-        {email:req.user.email},{cartData:checkQuantity},{new:true}
-        )
     if(checkQuantity == 0){
-        res.send();
+        userData = await User.findOneAndUpdate(
+            {email:req.user.email},{cartData:[]},{new:true}
+            )
+        res.send({cartData:[],access_token,refresh_token});
     }
     else {
-        res.send(userData.cartData)
+        userData = await User.findOneAndUpdate(
+            {email:req.user.email},{cartData:checkQuantity},{new:true}
+            )
+        res.send({cartData:userData.cartData,access_token,refresh_token})
     }
 
 
@@ -72,7 +77,7 @@ router.get('/getCart',Authenticate,async(req,res)=>{
         res.json(userData.cartData)
         return;
     }
-    res.send({})
+    res.json()
 
 })
 

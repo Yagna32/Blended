@@ -61,20 +61,16 @@ const Authenticate = async (req, res, next) => {
         }
         const refresh_token = req.headers['refresh-token'];
         if(!refresh_token){
-            res.status(401).send({
-                errors: "No Token Found"
-            })
-            return;
+            res.json()
         }
         else {
              refresh_payload = await verifyRefreshToken(refresh_token);
-
         }
         if(access_payload === false && refresh_payload) {
             const access_token = await signAccessToken(refresh_payload);
             const refresh_token = await signRefreshToken(refresh_payload);
-            res.set('access-token',access_token);
-            res.set('refresh-token',refresh_token)
+            req.access_token = access_token
+            req.refresh_token = refresh_token
         }
         req.user = refresh_payload;
         next()

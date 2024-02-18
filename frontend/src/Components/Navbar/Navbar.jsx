@@ -31,8 +31,8 @@ const Navbar = () => {
         </ul>
         <div className="nav-login-cart">
             <a href="http://localhost:5173/" target='_blank' rel="noreferrer">Admin Panel</a>
-            {localStorage.getItem('auth-token')
-            ?<button onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}>Logout</button>
+            {localStorage.getItem('refresh-token')
+            ?<button onClick={()=>{localStorage.removeItem('access-token');localStorage.removeItem('refresh-token');window.location.replace('/')}}>Logout</button>
             :<Link to='/Login'><button>Login</button></Link>
             }
             <Link to="/cart"><img src={cart_icon} alt="" /></Link>

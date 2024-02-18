@@ -28,7 +28,8 @@ export const LoginSignUp = () => {
     .then((data)=>{responseData=data})
 
     if(responseData.success){
-      localStorage.setItem('auth-token',responseData.token);
+      localStorage.setItem('access-token',responseData.access_token);
+      localStorage.setItem('refresh-token',responseData.refresh_token);
       window.location.replace('/');
     }
     else{
@@ -51,7 +52,8 @@ export const LoginSignUp = () => {
     .then((data)=>{responseData=data})
 
     if(responseData.success){
-      localStorage.setItem('auth-token',responseData.token);
+      localStorage.setItem('access-token',responseData.access_token);
+      localStorage.setItem('refresh-token',responseData.refresh_token);
       window.location.replace('/');
     }
     else{
