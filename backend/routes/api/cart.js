@@ -2,9 +2,19 @@ const express = require('express')
 const router = express.Router()
 const User = require('../../models/Users')
 const fetchUser = require('../../middlewares/auth')
-router.post('/addtoCart',fetchUser,async(req,res)=>{
-    let userData = await User.findOne({_id:req.user.id});
-    const userCartData = await User.findOneAndUpdate({_id:req.user.id},
+const {Authenticate} = require('../../middlewares/tempAuth')
+// router.post('/addtoCart',fetchUser,async(req,res)=>{
+//     let userData = await User.findOne({_id:req.user.id});
+//     const userCartData = await User.findOneAndUpdate({_id:req.user.id},
+//             {$push: {cartData: {product_id: req.body.itemId,price:req.body.price}}},
+//             {new:true}
+//             )
+    
+//     res.send(userCartData.cartData)
+// })  
+router.post('/addtoCart',Authenticate,async(req,res)=>{
+    let userData = await User.findOne({email:req.user.email});
+    const userCartData = await User.findOneAndUpdate({email:req.user.email},
             {$push: {cartData: {product_id: req.body.itemId,price:req.body.price}}},
             {new:true}
             )
@@ -12,10 +22,13 @@ router.post('/addtoCart',fetchUser,async(req,res)=>{
     res.send(userCartData.cartData)
 })  
 
-router.post('/removeFromCart',fetchUser,async(req,res)=>{
-    let userData = await User.findOne({_id:req.user.id});
-    let checkQuantity = await User.findOne({_id:req.user.id,cartData: {product_id: req.body.itemId,price:req.body.price}})
-    console.log(checkQuantity.cartData.length)
+
+router.post('/removeFromCart',Authenticate,async(req,res)=>{
+    console.log(req.user)
+    let userData = await User.findOne({email:req.user.email});
+    console.log(userData)
+    let checkQuantity = await User.findOne({email:req.user.email,cartData: {product_id: req.body.itemId,price:req.body.price}})
+    console.log(checkQuantity)
     if(checkQuantity && checkQuantity.cartData.length > 0){
         checkQuantity = checkQuantity.cartData;
         console.log(checkQuantity)
@@ -23,14 +36,37 @@ router.post('/removeFromCart',fetchUser,async(req,res)=>{
         console.log(checkQuantity)
     }
     userData = await User.findOneAndUpdate(
-        {_id:req.user.id},{cartData:checkQuantity},{new:true}
+        {email:req.user.email},{cartData:checkQuantity},{new:true}
         )
+    if(checkQuantity == 0){
+        res.send();
+    }
+    else {
+        res.send(userData.cartData)
+    }
 
-    res.send(userData.cartData)
+
 })
 
-router.post('/getCart',fetchUser,async(req,res)=>{
-    let userData = await User.findOne({_id: req.user.id})
+
+// router.post('/removeFromCart',fetchUser,async(req,res)=>{
+//     let userData = await User.findOne({_id:req.user.id});
+//     let checkQuantity = await User.findOne({_id:req.user.id,cartData: {product_id: req.body.itemId,price:req.body.price}})
+//     console.log(checkQuantity.cartData.length)
+//     if(checkQuantity && checkQuantity.cartData.length > 0){
+//         checkQuantity = checkQuantity.cartData;
+//         console.log(checkQuantity)
+//         checkQuantity.pop();
+//         console.log(checkQuantity)
+//     }
+//     userData = await User.findOneAndUpdate(
+//         {_id:req.user.id},{cartData:checkQuantity},{new:true}
+//         )
+
+//     res.send(userData.cartData)
+// })
+router.post('/getCart',Authenticate,async(req,res)=>{
+    let userData = await User.findOne({email: req.user.email})
     if(userData)
     {
         res.json(userData.cartData)

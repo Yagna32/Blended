@@ -1,7 +1,7 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-
+const {signAccessToken,signRefreshToken} = require('../../middlewares/tempAuth')
 const User = require('../../models/Users')
 
 router.post('/signup',async(req,res)=>{
@@ -19,33 +19,33 @@ router.post('/signup',async(req,res)=>{
     })
 
     await newUser.save();
-    const data = {
-        user:{
-            id:newUser.id
-        }
-    }
-
-    const token = jwt.sign(data,'secret_ecom');
+    const access_token = await signAccessToken(newUser);
+    const refresh_token = await signRefreshToken(newUser);
     res.json({
         success: true,
-        token
+        access_token,
+        refresh_token
     })
-    console.log('after token')
 
 })
 
 router.post('/login',async(req,res)=>{
     let user = await User.findOne({email:req.body.email})
     if(user) {
-        const passCompare = req.body.password === user.password;
-        if(passCompare){
-            const data = {
-                user: {
-                    id: user.id
-                }
-            } 
-            const token = jwt.sign(data,process.env.SECRET_TOKEN);
-            res.json({success:true,token})
+        const validPass = req.body.password === user.password;
+        if(validPass){
+            const newUser = {
+                name:req.body.username,
+                email:req.body.email,
+                password:req.body.password
+            }
+            const access_token = await signAccessToken(newUser);
+            const refresh_token = await signRefreshToken(newUser);
+            res.json({
+                success: true,
+                access_token,
+                refresh_token
+            })
         }
         else {
             res.json({
