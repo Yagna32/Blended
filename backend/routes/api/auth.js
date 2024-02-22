@@ -66,7 +66,7 @@ router.get('/:email/getTokens',async(req,res)=>{
     if(!user) {
         res.status(404).json({
             success: false,
-            message: "No Such User"
+            error: "No Such User"
         })
     }
     const access_token = await signAccessToken(user);
