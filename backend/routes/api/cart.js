@@ -23,15 +23,6 @@ router.post('/addtoCart',Authenticate,async(req,res)=>{
 
 
 router.post('/removeFromCart',Authenticate,async(req,res)=>{
-    var access_token=null;
-    var refresh_token=null;
-    if(req.access_token){
-        access_token = req.access_token
-    }
-    if(req.refresh_token){
-        refresh_token=req.refresh_token
-    }
-    let userData = await User.findOne({email:req.user.email});
     let checkQuantity = await User.findOne({email:req.user.email,cartData: {product_id: req.body.itemId,price:req.body.price}})
     if(checkQuantity && checkQuantity.cartData.length > 0){
         checkQuantity = checkQuantity.cartData;
@@ -41,16 +32,13 @@ router.post('/removeFromCart',Authenticate,async(req,res)=>{
         userData = await User.findOneAndUpdate(
             {email:req.user.email},{cartData:[]},{new:true}
             )
-        res.send({cartData:[],access_token,refresh_token});
     }
     else {
         userData = await User.findOneAndUpdate(
             {email:req.user.email},{cartData:checkQuantity},{new:true}
             )
-        res.send({cartData:userData.cartData,access_token,refresh_token})
     }
-
-
+    res.send(userData.cartData);
 })
 
 

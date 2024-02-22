@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {signAccessToken,signRefreshToken} = require('../../middlewares/tempAuth')
+const {signAccessToken,signRefreshToken, Authenticate} = require('../../middlewares/tempAuth')
 const User = require('../../models/Users')
 
 router.post('/signup',async(req,res)=>{
@@ -61,5 +61,21 @@ router.post('/login',async(req,res)=>{
     }
 })
 
+router.get('/:email/getTokens',async(req,res)=>{
+    const user = await User.findOne({email:req.params.email});
+    if(!user) {
+        res.status(404).json({
+            success: false,
+            message: "No Such User"
+        })
+    }
+    const access_token = await signAccessToken(user);
+    const refresh_token = await signRefreshToken(user);
+    res.json({
+    success: true,
+    access_token,
+    refresh_token
+    })
+})
 
 module.exports =  router;

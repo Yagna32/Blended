@@ -5,13 +5,14 @@ export const ShopContext = createContext(null);
 const ShopContextProvider = (props)=>{
 
     const [all_product,setAll_Product] = useState([]);
-
     const [cartItems,setCartItems] = useState([]);
-    
+
     useEffect(()=>{
+        console.log('Tokens state changed success fully : ')
         fetch('http://localhost:4000/api/v1/Product/allProducts')
         .then((res)=>res.json())
         .then((data)=>{setAll_Product(data);console.log(data)})
+
         if(localStorage.getItem('refresh-token') && localStorage.getItem('access-token')){
             fetch('http://localhost:4000/api/v1/Cart/getCart',{
                 method:'GET',
@@ -29,7 +30,32 @@ const ShopContextProvider = (props)=>{
     
     },[])
 
+    const getNewTokens = (email)=>{
+        fetch(`http://localhost:4000/api/v1/${email}/getTokens`,{
+            method: 'GET',
+            headers:{
+              Accept:'application/json',
+              'Content-Type':'application/json'
+            }
+          })
+    }
+
+    const checkTokens = () =>{
+        const access_token = localStorage.getItem('access-token');
+        const refresh_token = localStorage.getItem('refresh-token')
+        const access_payload = JSON.parse(atob(access_token.split('.')[1]))
+        const refresh_payload = JSON.parse(atob(refresh_token.split('.')[1]))
+        if((access_payload.exp - (Date.now/1000))<1){
+            if((refresh_payload.exp - (Date.now/1000))<10){
+                window.location.replace('/Login');
+            }
+            else {
+                getNewTokens(refresh_payload.email);
+            }
+        }
+    }
     const addToCart = (itemId,price)=>{    
+        checkTokens(localStorage.getItem('access-token',localStorage.getItem('refresh-token')))
         if(localStorage.getItem('refresh-token')){
             fetch('http://localhost:4000/api/v1/Cart/addtoCart',{
                 method:'POST',
@@ -47,6 +73,7 @@ const ShopContextProvider = (props)=>{
     }
 
     const removeFromCart = (itemId,price)=>{
+        checkTokens(localStorage.getItem('access-token',localStorage.getItem('refresh-token')))
         if(localStorage.getItem('refresh-token')){
             fetch('http://localhost:4000/api/v1/Cart/removeFromCart',{
                 method:'POST',
