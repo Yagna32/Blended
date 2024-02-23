@@ -105,5 +105,5 @@ const Authenticate = async (req, res, next) => {
 //     }
 }
 module.exports = {
-signAccessToken,signRefreshToken,Authenticate
+signAccessToken,signRefreshToken,Authenticate,verifyRefreshToken,verifyAccessToken
 };

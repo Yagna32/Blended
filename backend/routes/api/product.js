@@ -28,7 +28,6 @@ router.post('/addProduct',async(req,res)=>{
 
 router.post('/removeProduct',async (req,res)=>{
     await Product.findOneAndDelete({id:req.body.id});
-    console.log("removed",req.body.id);
     res.json({
         success: true,
         name:req.body.name

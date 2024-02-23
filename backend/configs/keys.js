@@ -7,8 +7,8 @@ module.exports = {
     jwtKeys: {
         ACCESS_TOKEN: process.env.SECRET_ACCESS_TOKEN,
         REFRESH_TOKEN: process.env.SECRET_REFRESH_TOKEN,
-        refreshtokenLife: '7d',
-        accesstokenLife:'360s',
+        refreshtokenLife: '120s',
+        accesstokenLife:'40s',
         issuer: 'https://github.com/Yagna32'
     },
     db: {

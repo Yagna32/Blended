@@ -11,47 +11,74 @@ const ShopContextProvider = (props)=>{
         fetch('http://localhost:4000/api/v1/Product/allProducts')
         .then((res)=>res.json())
         .then((data)=>{setAll_Product(data);console.log(data)})
-
-            if(checkTokens()===true){
-                fetch('http://localhost:4000/api/v1/Cart/getCart',{
-                method:'GET',
-                headers:{
-                    Accept:'application/form-data',
-                    'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
-                    'refresh-token':`${localStorage.getItem('refresh-token')}`,
-                    'Content-Type':'application/json'
+        const fetchData = async () => {
+            const tokensValid = await checkTokens();
+            if (tokensValid) {
+                const cartResponse = await fetch('http://localhost:4000/api/v1/Cart/getCart', {
+                    method: 'GET',
+                    headers: {
+                        Accept: 'application/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+                        'refresh-token': `${localStorage.getItem('refresh-token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const cartData = await cartResponse.json();
+                if (cartData) {
+                    setCartItems(cartData);
                 }
-            })
-            .then((res)=>res.json())
-            .then((data)=>{if(data){setCartItems(data)};console.log(data)})
-}
+                console.log(cartData);
+            }
+        };
+    
+        fetchData();
+            //checkTokens().then(data=>{if(data===true){
+            //     fetch('http://localhost:4000/api/v1/Cart/getCart',{
+            //     method:'GET',
+            //     headers:{
+            //         Accept:'application/form-data',
+            //         'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
+            //         'refresh-token':`${localStorage.getItem('refresh-token')}`,
+            //         'Content-Type':'application/json'
+            //     }
+            // })
+            // .then((res)=>res.json())
+            // .then((data)=>{if(data){setCartItems(data)};console.log(data)})
+            // }})
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
-    const getNewTokens = (email)=>{
-        fetch(`http://localhost:4000/api/v1/${email}/getTokens`,{
-            method: 'GET',
-            headers:{
-              Accept:'application/json',
-              'Content-Type':'application/json'
+    const getNewTokens = async (email, refresh_token) => {
+        try {
+            const response = await fetch(`http://localhost:4000/api/v1/${email}/getTokens`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'refresh-token': refresh_token
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to get new tokens');
             }
-            })
-            .then((res)=>res.json())
-            .then((data)=>{
-                if(data.success)
-                {
-                    console.log("New tokens assigned")
-                    localStorage.setItem('access-token',data.access_token)
-                    localStorage.setItem('refresh-token',data.refresh_token)
-                }
-                else {
-                    console.log(data.error);
-                }
-                return data.success;
-                })
-    }
+    
+            const data = await response.json();
+            if (data.success) {
+                console.log("New tokens assigned");
+                localStorage.setItem('access-token', data.access_token);
+                localStorage.setItem('refresh-token', data.refresh_token);
+            } else {
+                throw new Error(data.error);
+            }
+        } catch (error) {
+            console.error('Error while getting new tokens:', error);
+            throw error;
+        }
+    };
+    
 
-    const checkTokens = () =>{
+    const checkTokens = async() =>{
         const access_token = localStorage.getItem('access-token');
         const refresh_token = localStorage.getItem('refresh-token');
         if(!access_token || !refresh_token){
@@ -60,55 +87,116 @@ const ShopContextProvider = (props)=>{
             }
         const access_payload = JSON.parse(atob(access_token.split('.')[1]))
         const refresh_payload = JSON.parse(atob(refresh_token.split('.')[1]))
-        if((access_payload.exp - (Date.now()/1000))<10){
+        console.log(access_payload.exp-(Date.now()/1000))
+        console.log(refresh_payload.exp - (Date.now()/1000))
+        if((access_payload.exp - (Date.now()/1000))<1){
             if((refresh_payload.exp - (Date.now()/1000))<1){
-                window.location.replace('/Login');
+                alert('please login first')
+                return;
             }
             else {
-                getNewTokens(refresh_payload.email);
+                console.log('getting new token')
+                await getNewTokens(refresh_payload.email, refresh_token);
                 return true;
             }
         }
-        return true
+        return true;
     }
 
-    const addToCart = (itemId,price)=>{    
-       if(checkTokens()===true) {
-        fetch('http://localhost:4000/api/v1/Cart/addtoCart',{
-            method:'POST',
-            headers:{
-                Accept:'application/form-data',
-                'authorization': `Bearer ${localStorage.getItem('access-token')}`,
-                'refresh-token':`${localStorage.getItem('refresh-token')}`,
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({"itemId":itemId,"price":price})
-        })
-        .then((res)=>res.json())
-        .then((data)=>setCartItems(data))
-       } 
-            
-    }
 
-    const removeFromCart = (itemId,price)=>{
-        if(checkTokens()===true) {
-            fetch('http://localhost:4000/api/v1/Cart/removeFromCart',{
-                method:'POST',
-                headers:{
-                    Accept:'application/form-data',
-                    'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
-                    'refresh-token':`${localStorage.getItem('refresh-token')}`,
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({"itemId":itemId,"price":price})
-            })
-            .then((res)=>{
-                return res.json()})
-                .then((data)=>{
-                    setCartItems(data)
-                })
+    const addToCart = async (itemId, price) => {
+        const result = await checkTokens();
+        if (result === true) {
+            try {
+                const response = await fetch('http://localhost:4000/api/v1/Cart/addtoCart', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+                        'refresh-token': `${localStorage.getItem('refresh-token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ itemId: itemId, price: price })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to add item to cart');
+                }
+    
+                const data = await response.json();
+                setCartItems(data);
+            } catch (error) {
+                console.error('Error while adding item to cart:', error);
             }
-    }
+        }
+    };
+    
+    // const addToCart = async(itemId,price)=>{    
+    //     const result = await checkTokens()
+    //     if(result===true) {
+    //     fetch('http://localhost:4000/api/v1/Cart/addtoCart',{
+    //         method:'POST',
+    //         headers:{
+    //             Accept:'application/form-data',
+    //             'authorization': `Bearer ${localStorage.getItem('access-token')}`,
+    //             'refresh-token':`${localStorage.getItem('refresh-token')}`,
+    //             'Content-Type':'application/json'
+    //         },
+    //         body:JSON.stringify({"itemId":itemId,"price":price})
+    //     })
+    //     .then((res)=>res.json())
+    //     .then((data)=>setCartItems(data)) 
+    // }
+    // }
+
+    const removeFromCart = async (itemId, price) => {
+        const result = await checkTokens();
+        if (result === true) {
+            try {
+                const response = await fetch('http://localhost:4000/api/v1/Cart/removeFromCart', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+                        'refresh-token': `${localStorage.getItem('refresh-token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ itemId: itemId, price: price })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to remove item from cart');
+                }
+    
+                const data = await response.json();
+                setCartItems(data);
+            } catch (error) {
+                console.error('Error while removing item from cart:', error);
+            }
+        }
+    };
+    
+    // const removeFromCart = (itemId,price)=>{
+    //     checkTokens().then(data=>{
+    //         if(data===true) {
+    //             fetch('http://localhost:4000/api/v1/Cart/removeFromCart',{
+    //             method:'POST',
+    //             headers:{
+    //                 Accept:'application/form-data',
+    //                 'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
+    //                 'refresh-token':`${localStorage.getItem('refresh-token')}`,
+    //                 'Content-Type':'application/json'
+    //             },
+    //             body:JSON.stringify({"itemId":itemId,"price":price})
+    //         })
+    //         .then((res)=>{
+    //             return res.json()})
+    //             .then((data)=>{
+    //                 setCartItems(data)
+    //             })
+     
+    //         }})
+    // }
 
     const getTotalCartAmount = () => {
         let totalAmount = 0;

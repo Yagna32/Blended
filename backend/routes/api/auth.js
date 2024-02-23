@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {signAccessToken,signRefreshToken, Authenticate} = require('../../middlewares/tempAuth')
+const {signAccessToken,signRefreshToken,verifyRefreshToken } = require('../../middlewares/tempAuth')
 const User = require('../../models/Users')
 
 router.post('/signup',async(req,res)=>{
@@ -16,7 +16,7 @@ router.post('/signup',async(req,res)=>{
         email:req.body.email,
         password:req.body.password
     })
-
+    console.log(`${newUser.email} made an account`)
     await newUser.save();
     const access_token = await signAccessToken(newUser);
     const refresh_token = await signRefreshToken(newUser);
@@ -40,6 +40,7 @@ router.post('/login',async(req,res)=>{
             }
             const access_token = await signAccessToken(newUser);
             const refresh_token = await signRefreshToken(newUser);
+            console.log(`${newUser.email} Logged in`)
             res.json({
                 success: true,
                 access_token,
@@ -61,7 +62,7 @@ router.post('/login',async(req,res)=>{
     }
 })
 
-router.get('/:email/getTokens',async(req,res)=>{
+router.get('/:email/getTokens',async(req,res,next)=>{
     const user = await User.findOne({email:req.params.email});
     if(!user) {
         res.status(404).json({
@@ -69,6 +70,19 @@ router.get('/:email/getTokens',async(req,res)=>{
             error: "No Such User"
         })
     }
+    try {
+    const refresh_payload = await verifyRefreshToken(req.headers['refresh-token'])
+    console.log(refresh_payload)
+    }
+    catch(error) {
+        const message = error.message === 'JsonWebTokenError' ? 'Unauthorized' : error.message;
+        res.status(401).json({
+            reason: "Invalid Token",
+            error: message
+        })
+        return;
+    }
+    console.log(`${req.params.email}  got new tokens`)
     const access_token = await signAccessToken(user);
     const refresh_token = await signRefreshToken(user);
     res.json({
