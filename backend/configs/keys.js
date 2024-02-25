@@ -13,5 +13,10 @@ module.exports = {
     },
     db: {
         MONGO_URI: process.env.MONGO_DB_URI
+    },
+    payment: {
+        STRIPE_KEY: process.env.STRIPE_API_KEY,
+        FRONTEND_URL: process.env.FRONTEND_URL,
+        SECRET_KEY: process.env.STRIPE_SECRET_KEY
     }
 }

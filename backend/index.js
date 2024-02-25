@@ -26,3 +26,7 @@ app.listen(port,(err)=>{
     if(err) console.log(err);
     console.log("Server is running on Port : ",port);
 })
+
+// fetch('https://fakestoreapi.com/products')
+//             .then(res=>res.json())
+//             .then(json=>console.log(json))
