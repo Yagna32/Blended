@@ -21,7 +21,7 @@ module.exports = {
     },
     email: {
         USER: process.env.NODEMAILER_EMAIL_USER,
-        PASS: process.env.NODEMAILER_EMAIL_PASS,
+        PASS: process.env.NODEMAILER_EMAIL_CRED,
         HOST: process.env.NODEMAILER_HOST,
         PORT: process.env.NODEMAILER_PORT,
         EMAIL_FROM: process.env.NODEMAILER_EMAIL_FROM,
