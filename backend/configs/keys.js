@@ -18,5 +18,14 @@ module.exports = {
         STRIPE_KEY: process.env.STRIPE_API_KEY,
         FRONTEND_URL: process.env.FRONTEND_URL,
         SECRET_KEY: process.env.STRIPE_SECRET_KEY
+    },
+    email: {
+        USER: process.env.NODEMAILER_EMAIL_USER,
+        PASS: process.env.NODEMAILER_EMAIL_PASS,
+        HOST: process.env.NODEMAILER_HOST,
+        PORT: process.env.NODEMAILER_PORT,
+        EMAIL_FROM: process.env.NODEMAILER_EMAIL_FROM,
+        EMAIL_SUB: process.env.NODEMAILER_EMAIL_SUBJECT,
+        EMAIL_TEXT: process.env.NODEMAILER_EMAIL_TEXT
     }
 }
