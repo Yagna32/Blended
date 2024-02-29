@@ -1,14 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './NewsLetter.css'
+import { ShopContext } from '../../Context/ShopContext';
 
 const NewsLetter = () => {
+  const {checkTokens} = useContext(ShopContext)
+  const mailHandler = async () => {
+    const tokensValid = await checkTokens();
+    if (tokensValid) {
+        const mailResponse = await fetch('http://localhost:4000/api/v1/mail/sendMail', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/form-data',
+                Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+                'refresh-token': `${localStorage.getItem('refresh-token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const mailData = await mailResponse.json();
+        if (mailData.success === true) {
+            alert("Check your email to confirm")
+        }
+    }
+};
   return (
     <div className='newsletter'>
         <h1>Get Exclusive Offers to your Email</h1>
         <p>Subscribe to our newsletter and stay updated</p>
         <div>
             <input type="email" placeholder='Your Email ID'/>
-            <button>Subscribe</button>
+            <button onClick={mailHandler}>Subscribe</button>
         </div>
     </div>
   )
