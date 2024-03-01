@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import './Navbar.css'
-import logo from '../Assets/logo.png'
+import logo from '../Assets/logo-b.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from '../../Context/ShopContext'
 import nav_dropdown from '../Assets/nav_dropdown.png'
@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className='nav-logo'>
             <NavLink to='/' className='nav-link'>
             <img src={logo} alt="" />
-            <p>SHOPPER</p></NavLink>
+            <p>Blended</p></NavLink>
         </div>
         <img className='nav-dropdown'src={nav_dropdown} onClick={dropdown_toggle} alt="" />
         <ul ref={menuRef} className='nav-menu'>
@@ -30,7 +30,6 @@ const Navbar = () => {
             <li onClick={()=>{setMenu("Kids")}}><Link to='/Kids' style={{textDecoration:'none'}}>Kids</Link>{menu==="Kids" ? <hr/>:undefined}</li>
         </ul>
         <div className="nav-login-cart">
-            <a href="http://localhost:5173/" target='_blank' rel="noreferrer">Admin Panel</a>
             {localStorage.getItem('refresh-token')
             ?<button onClick={()=>{localStorage.removeItem('access-token');localStorage.removeItem('refresh-token');window.location.replace('/')}}>Logout</button>
             :<Link to='/Login'><button>Login</button></Link>

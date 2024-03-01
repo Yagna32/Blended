@@ -11,7 +11,6 @@ const getUserCachedCart= (req,res,next)=>{
     redisClient.get(email,(err,data)=>{
         if(err) throw err;
         if(data !== null) {
-            console.log(data)
             res.send(JSON.parse(data))
         }
         else {
@@ -25,7 +24,6 @@ router.post('/addtoCart',Authenticate,async(req,res)=>{
         {$push: {cartData: {product_id: req.body.itemId,price:req.body.price}}},
         {new:true}
     )
-    console.log(updatedUser.cartData)
     
     redisClient.setex(updatedUser.email,60,JSON.stringify(updatedUser.cartData));
 
@@ -34,12 +32,17 @@ router.post('/addtoCart',Authenticate,async(req,res)=>{
 
 
 router.post('/removeFromCart',Authenticate,async(req,res)=>{
-    let userCart = await User.findOne({email:req.user.email,cartData: {product_id: req.body.itemId,price:req.body.price}})
-    if(userCart && userCart.cartData.length > 0){
-        userCart = userCart.cartData;
-        userCart.pop();
+    let user = await User.findOne({email:req.user.email})
+    let isProductInCart=false;
+    let userCart=user.cartData;
+    if(user && userCart.length > 0){
+        const index = userCart.findIndex(obj=>obj["product_id"]===req.body.itemId)
+        if(index !==-1){
+            userCart.splice(index,1);
+            isProductInCart=true;
+        }
     }
-    console.log(userCart)
+    if(!isProductInCart) res.status(400).send();
     if(userCart <= 0){
         userData = await User.findOneAndUpdate(
             {email:req.user.email},{cartData:[]},{new:true}

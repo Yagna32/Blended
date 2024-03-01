@@ -9,12 +9,17 @@
 .nav-link{
     display: flex;
     align-items: center;
-    gap: 10px;
+    column-gap: 10px;
     text-decoration: none;
+}
+.nav-link img{
+   width: 90px;
+   height: 90px;
 }
 
 .nav-logo p {
     color: black;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 38px;
     font-weight: 600;
 }
@@ -92,9 +97,10 @@
         padding: 12px 50px;
     }
 
-    .nav-logo img{
-        width: 40px;
-    }
+    .nav-link img{
+        width: 90px;
+        height: 90px;
+     }
 
     .nav-logo p{
         font-size: 25px;
