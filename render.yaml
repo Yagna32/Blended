@@ -1,0 +1,12 @@
+services:
+  - name: backend
+    buildCommand: npm install
+    runCommand: npm run start
+
+  - name: frontend
+    buildCommand: npm install && npm run build
+    runCommand: npm start
+
+  - name: admin
+    buildCommand: npm install && npm run build
+    runCommand: npm run dev
