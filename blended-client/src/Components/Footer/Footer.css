@@ -90,3 +90,9 @@
     }
     
 }
+
+@media (max-width: 500px) {
+    .footer-links {
+        padding: 0px;
+    }
+}

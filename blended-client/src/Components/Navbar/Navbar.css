@@ -155,6 +155,7 @@
 @media(max-width:800px) {
     .navbar {
         padding: 10px 0px;
+        height: 70px;
     }
 
     .nav-dropdown {
@@ -163,6 +164,11 @@
         rotate: -90deg;
         opacity: 0.6;
     }
+
+    .nav-link p{
+        display: none;
+    }
+
     .nav-menu {
         display: none;
         height: 80px;
@@ -170,10 +176,13 @@
         position: absolute;
         background: white;
         justify-content: center;
-        top: 50px;
+        top: 80px;
     }
-
+    .nav-menu a{
+        font-size: 18px;
+    }
     .nav-menu-visible{
+        padding: 0px;
         display: flex;
     }
 
@@ -185,16 +194,21 @@
 @media (max-width:500px) {
     .navbar {
         width: 8px 0px;
-        gap: 0;
+        height: 50px;
     }
 
+    
+    .nav-link p{
+        display: none;
+    }
     .nav-logo {
         transform: scale(0.8);
     }
 
     .nav-menu {
         height: 70px;
-        top: 50px;
+        top: 60px;
+        padding: 0px;
     }
     
     .nav-login-cart {
