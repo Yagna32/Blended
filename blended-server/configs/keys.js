@@ -3,7 +3,7 @@ module.exports = {
         name: "Shopper",
         apiURL: process.env.API_BASE_URL
     },
-    port: process.env.PORT || 5000,
+    port: process.env.PORT || 4000,
     jwtKeys: {
         ACCESS_TOKEN: process.env.SECRET_ACCESS_TOKEN,
         REFRESH_TOKEN: process.env.SECRET_REFRESH_TOKEN,
@@ -27,5 +27,11 @@ module.exports = {
         EMAIL_FROM: process.env.NODEMAILER_EMAIL_FROM,
         EMAIL_SUB: process.env.NODEMAILER_EMAIL_SUBJECT,
         EMAIL_TEXT: process.env.NODEMAILER_EMAIL_TEXT
+    },
+    CLOUDINARY: {
+        CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+        API_KEY: process.env.CLOUDINARY_API_KEY,
+        SECRET_KEY: process.env.CLOUDINARY_SECRET_KEY,
+        URL: process.env.CLOUDINARY_URL
     }
 }

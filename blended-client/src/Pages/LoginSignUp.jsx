@@ -8,7 +8,7 @@ export const LoginSignUp = () => {
     email:"",
     password:""
   })
-
+  const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
   const changeHandler = (e) => {
     setFormData({...formData,[e.target.name]:e.target.value})
   }
@@ -16,7 +16,7 @@ export const LoginSignUp = () => {
   const login = async() =>{
     let responseData;
 
-    await fetch('http://localhost:4000/api/v1/login',{
+    await fetch(`${backendURL}/login`,{
       method: 'POST',
       headers:{
         Accept:'application/json',
@@ -40,7 +40,7 @@ export const LoginSignUp = () => {
   const signup = async()=>{
     let responseData;
 
-    await fetch('http://localhost:4000/api/v1/signup',{
+    await fetch(`${backendURL}/signup`,{
       method: 'POST',
       headers:{
         Accept:'application/json',

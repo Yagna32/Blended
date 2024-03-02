@@ -4,12 +4,12 @@ import Item from '../Item/Item'
 const NewCollections = () => {
 
   const [new_collection,setNew_Collection] = useState([]);
-
+  const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
   useEffect(()=>{
-    fetch('http://localhost:4000/api/v1/Product/newCollections')
+    fetch(`${backendURL}/Product/newCollections`)
     .then((res)=>res.json())
     .then((data)=>setNew_Collection(data))
-  },[])
+  },[backendURL])
   return (
     <div className='new-collections'>
         <h1>NEW COLLECTIONS</h1>

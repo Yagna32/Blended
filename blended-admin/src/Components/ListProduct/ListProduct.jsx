@@ -2,21 +2,23 @@ import React, { Fragment, useEffect, useState } from 'react'
 import './ListProduct.css'
 import cross_icon from '../../assets/cross_icon.png'
 const ListProduct = () => {
+  const backendURL=import.meta.env.VITE_BACKEND_URL;
 
   const [allProducts,setAllProducts] = useState([]);
 
   const fetchInfo = async()=>{
-    await fetch('http://localhost:4000/api/v1/Product/allProducts')
+    await fetch(`${backendURL}/Product/allProducts`)
     .then((res)=>res.json())
     .then((data)=>{setAllProducts(data)})
   }
 
   useEffect(()=>{
     fetchInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const remove_product = async(id)=>{
-    await fetch('http://localhost:4000/api/v1/Product/removeProduct',{
+    await fetch(`${backendURL}/Product/removeProduct`,{
       method: 'POST',
       headers: {
         Accept: 'application/json',

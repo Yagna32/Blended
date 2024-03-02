@@ -3,6 +3,7 @@ import './AddProduct.css'
 import upload_area from '../../assets/upload_area.svg'
 
 const AddProduct = () => {
+    const backendURL=import.meta.env.VITE_BACKEND_URL;//import.meta.env.VITE_BACKEND_LOCAL_URL
     const [image,setImage] = useState([]);
     const [productDetails,setProductDetails] = useState({
         name:"",
@@ -32,7 +33,7 @@ const AddProduct = () => {
           });
         // formData.append('product',image);
 
-        await fetch('http://localhost:4000/api/v1/Product/upload',{
+        await fetch(`${backendURL}/Product/upload`,{
             method: 'POST',
             headers: {
                 Accept: 'application/json'
@@ -43,7 +44,7 @@ const AddProduct = () => {
         if(responseData.success){
             product.image = responseData.image_urls;
             console.log(JSON.stringify(product))
-            await fetch('http://localhost:4000/api/v1/Product/addProduct',{
+            await fetch(`${backendURL}/Product/addProduct`,{
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

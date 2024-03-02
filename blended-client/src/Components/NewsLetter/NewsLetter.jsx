@@ -3,11 +3,12 @@ import './NewsLetter.css'
 import { ShopContext } from '../../Context/ShopContext';
 
 const NewsLetter = () => {
+    const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
   const {checkTokens} = useContext(ShopContext)
   const mailHandler = async () => {
     const tokensValid = await checkTokens();
     if (tokensValid) {
-        const mailResponse = await fetch('http://localhost:4000/api/v1/mail/sendMail', {
+        const mailResponse = await fetch(`${backendURL}/mail/sendMail`, {
             method: 'GET',
             headers: {
                 Accept: 'application/form-data',

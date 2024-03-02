@@ -6,15 +6,15 @@ const ShopContextProvider = (props)=>{
 
     const [all_product,setAll_Product] = useState([]);
     const [cartItems,setCartItems] = useState([]);
-
+    const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
     useEffect(()=>{
-        fetch('http://localhost:4000/api/v1/Product/allProducts')
+        fetch(`${backendURL}/Product/allProducts`)
         .then((res)=>res.json())
         .then((data)=>{setAll_Product(data);console.log(data)})
         const fetchData = async () => {
             const tokensValid = await checkTokens();
             if (tokensValid) {
-                const cartResponse = await fetch('http://localhost:4000/api/v1/Cart/getCart', {
+                const cartResponse = await fetch(`${backendURL}/Cart/getCart`, {
                     method: 'GET',
                     headers: {
                         Accept: 'application/form-data',
@@ -50,7 +50,7 @@ const ShopContextProvider = (props)=>{
 
     const getNewTokens = async (email, refresh_token) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/v1/${email}/getTokens`, {
+            const response = await fetch(`${backendURL}/${email}/getTokens`, {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
@@ -108,7 +108,7 @@ const ShopContextProvider = (props)=>{
         const result = await checkTokens();
         if (result === true) {
             try {
-                const response = await fetch('http://localhost:4000/api/v1/Cart/addtoCart', {
+                const response = await fetch(`${backendURL}/Cart/addtoCart`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/form-data',
@@ -153,7 +153,7 @@ const ShopContextProvider = (props)=>{
         const result = await checkTokens();
         if (result === true) {
             try {
-                const response = await fetch('http://localhost:4000/api/v1/Cart/removeFromCart', {
+                const response = await fetch(`${backendURL}/Cart/removeFromCart`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/form-data',
