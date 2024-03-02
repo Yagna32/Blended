@@ -52,7 +52,7 @@ const AddProduct = () => {
                 },
                 body:JSON.stringify(product)
             }).then((res)=>res.json()).then((data)=>{
-                data.success ? <dialog>Product added</dialog>:alert('Failed')
+                data.success ? alert("Product Added"):alert('Failed')
             })
         }
 
