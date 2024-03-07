@@ -1,9 +1,10 @@
 import React from 'react'
 import './Footer.css'
 import footer_logo from '../Assets/logo_big.png'
-import instagram_icon from '../Assets/instagram_icon.png'
-import pintrest_icon from '../Assets/pintester_icon.png'
-import whatsapp_icon from '../Assets/whatsapp_icon.png'
+import github_icon from '../Assets/icons8-github-48.png'
+import email_icon from '../Assets/icons8-email-48.png'
+import linkedin_icon from '../Assets/icons8-linkedin-48.png'
+
 const Footer = () => {
   return (
     <div className='footer'>
@@ -20,13 +21,13 @@ const Footer = () => {
         </ul>
         <div className="footer-socials-icon">
             <div className="footer-icon-container">
-                <img src={instagram_icon} alt="" />
+            <a href="https://github.com/Yagna32" target='_blank' rel='noreferrer'><img src={github_icon} alt="" /></a>
             </div>
             <div className="footer-icon-container">
-                <img src={pintrest_icon} alt="" />
+            <a href="https://www.linkedin.com/in/yagna-patel-828425230/" target='_blank' rel='noreferrer'><img src={linkedin_icon} alt="" /></a>
             </div>
             <div className="footer-icon-container">
-                <img src={whatsapp_icon} alt="" />
+                <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=yagnapatelhirenk@gmail.com" target='_blank' rel='noreferrer'><img src={email_icon} alt="" /></a>
             </div>
         </div>
         <div className="footer-copyright">

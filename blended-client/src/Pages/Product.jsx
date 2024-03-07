@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import { useParams } from 'react-router-dom'
 import Breadcrum from '../Components/Breadcrums/Breadcrum'
@@ -9,10 +9,13 @@ const Product = () => {
   const {productid} = useParams();
   console.log(productid + " id product choosed")
   const product = all_product.find((e)=>e.id===Number(productid))
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+  
   return (
     <div className='products'>
       <Breadcrum product={product}/>
-      {window.scrollTo(0,0)}
       <ProductDisplay product={product}/>
       <RelatedProducts/>
     </div>

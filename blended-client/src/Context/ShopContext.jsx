@@ -84,7 +84,6 @@ const ShopContextProvider = (props)=>{
         const access_token = localStorage.getItem('access-token');
         const refresh_token = localStorage.getItem('refresh-token');
         if(!access_token || !refresh_token){
-             alert("Please Login First")
              return false;
             }
         const access_payload = JSON.parse(atob(access_token.split('.')[1]))
@@ -130,6 +129,9 @@ const ShopContextProvider = (props)=>{
             } catch (error) {
                 console.error('Error while adding item to cart:', error);
             }
+        }
+        else {
+            alert("Please Login First!");
         }
     };
     
@@ -229,11 +231,8 @@ const ShopContextProvider = (props)=>{
         return totalItem;
     }
 
-    const activateMenu = (menu_category) => { 
-        setMenu(menu_category);
-    }
 
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,getQuantity,checkTokens,menu,activateMenu};
+    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,getQuantity,checkTokens,menu,setMenu};
 
     return (
         <ShopContext.Provider value={contextValue} >
