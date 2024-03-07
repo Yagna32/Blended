@@ -4,6 +4,7 @@ import star_icon from '../Assets/star_icon.png'
 import star_dull_icon from '../Assets/star_dull_icon.png'
 import { ShopContext } from '../../Context/ShopContext'
 
+
 const ProductDisplay = (props) => {
     const {product} = props;
     const [mainImage,setMainImage] = useState(product.image[0])
@@ -69,12 +70,6 @@ const ProductDisplay = (props) => {
                 Eum quis assumenda laboriosam ratione, molestias obcaecati, 
                 laborum commodi molestiae iure inventore corporis. 
                 Architecto, perspiciatis ullam harum quo maxime et facere iusto?
-            </p>
-            <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos ut, 
-                nesciunt officia voluptates commodi praesentium placeat, alias quae 
-                maxime possimus ex odit! Soluta nemo, 
-                quidem laudantium perferendis suscipit ratione nulla.
             </p>
         </div>
     </div>

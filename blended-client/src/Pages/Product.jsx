@@ -12,6 +12,7 @@ const Product = () => {
   return (
     <div className='products'>
       <Breadcrum product={product}/>
+      {window.scrollTo(0,0)}
       <ProductDisplay product={product}/>
       <RelatedProducts/>
     </div>

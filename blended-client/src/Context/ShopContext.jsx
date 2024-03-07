@@ -6,7 +6,9 @@ const ShopContextProvider = (props)=>{
 
     const [all_product,setAll_Product] = useState([]);
     const [cartItems,setCartItems] = useState([]);
-    const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
+    const [menu,setMenu] = useState('Shop')
+    
+    const backendURL=process.env.REACT_APP_BACKEND_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
     useEffect(()=>{
         fetch(`${backendURL}/Product/allProducts`)
         .then((res)=>res.json())
@@ -227,7 +229,11 @@ const ShopContextProvider = (props)=>{
         return totalItem;
     }
 
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,getQuantity,checkTokens};
+    const activateMenu = (menu_category) => { 
+        setMenu(menu_category);
+    }
+
+    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,getQuantity,checkTokens,menu,activateMenu};
 
     return (
         <ShopContext.Provider value={contextValue} >

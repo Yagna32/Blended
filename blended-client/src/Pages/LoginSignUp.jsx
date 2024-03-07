@@ -8,7 +8,7 @@ export const LoginSignUp = () => {
     email:"",
     password:""
   })
-  const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
+  const backendURL=process.env.REACT_APP_BACKEND_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
   const changeHandler = (e) => {
     setFormData({...formData,[e.target.name]:e.target.value})
   }

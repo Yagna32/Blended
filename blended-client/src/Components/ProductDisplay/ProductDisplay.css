@@ -82,6 +82,11 @@
     cursor: pointer;
 }
 
+.productdisplay-right-sizes div:hover{
+    background-color: #ebebeb;
+    border: #3d3d3d solid 1px;
+}
+
 .productdisplay-right button{
     padding: 20px 40px;
     width: 200px;

@@ -4,7 +4,7 @@ import Item from '../Item/Item'
 const Popular = () => {
 
     const [popularProducts,setPopularProducts] = useState([]);
-    const backendURL=process.env.REACT_APP_BACKEND_RENDER_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
+    const backendURL=process.env.REACT_APP_BACKEND_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
     useEffect(()=>{
       fetch(`${backendURL}/Product/popular/men`)
       .then((res)=>res.json())
