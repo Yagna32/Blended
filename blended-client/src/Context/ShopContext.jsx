@@ -92,7 +92,9 @@ const ShopContextProvider = (props)=>{
         console.log(refresh_payload.exp - (Date.now()/1000))
         if((access_payload.exp - (Date.now()/1000))<1){
             if((refresh_payload.exp - (Date.now()/1000))<1){
-                alert('please login first')
+                localStorage.removeItem('access-token');
+                localStorage.removeItem('refresh-token');
+                alert('please login first');
                 return;
             }
             else {
