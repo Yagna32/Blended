@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -19,8 +20,9 @@
 
 .nav-logo p {
     color: black;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 38px;
+    font-family: "Amatic SC";
+    /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+    font-size: 55px;
     font-weight: 600;
 }
 
@@ -42,7 +44,9 @@
     gap: 3px;
     cursor: pointer;
 }
-
+.nav-menu li a{
+    color: #000090;
+}
 .nav-menu hr{
     border: none;
     background: red;
