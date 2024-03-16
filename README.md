@@ -12,10 +12,11 @@
 5. More Backend APIs (addReviews, maybe a form for contact)
 6. More Features in admin panel(updateProductDetails, ProductAnalysis, makeProductUnavailable)
 7. Payment Integration (stripe)(Done)
-8. Implement Redis (also look how to deploy it cause we need remote redis server for that)
+8. Implement Redis (also look how to deploy it cause we need remote redis server for that)(done)
 9. Improve authentication (maybe add google auth in react optional tho)
 10. Database schema needs to change better and in-depth (maybe add a new schema)(strong schema configuration needed)
 11. Implement Testing after the project completes (important) (also better eslint configuration is also imp)
 12. Dedicated success and failure page after payments
 13. Previous order page (only if a user has ordered the product before then can give reviews).
 14. Improve UI/fonts/colors (Optional)
+15. Use redis caching as mush as possible.
