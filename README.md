@@ -2,7 +2,7 @@
 
 # Bugs: 
 0. requests are slower taking 200ms to 700ms on render takes about 20ms to 100ms in local host
-
+1. Product duplicate when switching between navbar shop category links
 # New Features & Feedback: 
 0. Add reviews option to add reviews
 1. Explore more should render more products (optional) if not done then take out explore more button
