@@ -2,6 +2,7 @@
     height: 100vh;
     background-image: linear-gradient(180deg, #fde1ff,#e2ffea22 60%);
     display: flex;
+    user-select: none;
 }
 
 .hero-left {
@@ -49,6 +50,7 @@
     color: white;
     font-size: 22px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .hero-right {
@@ -60,6 +62,7 @@
 
 .hero-right img{
     width: 550px;
+    user-select: none;
 }
 
 @media (max-width:1280px) {
