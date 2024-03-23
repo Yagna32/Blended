@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.css'
-import footer_logo from '../Assets/black_logo.png'
+import footer_logo from '../Assets/logo-b.png'
 import github_icon from '../Assets/icons8-github-48.png'
 import email_icon from '../Assets/icons8-email-48.png'
 import linkedin_icon from '../Assets/icons8-linkedin-48.png'

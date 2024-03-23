@@ -1,14 +1,15 @@
-import React,{useEffect, useState} from 'react'
+import React,{useContext, useEffect} from 'react'
 import './Popular.css'
 import Item from '../Item/Item'
+import { ShopProductsContext } from '../../Context/ShopProductsContext'
 const Popular = () => {
-
-    const [popularProducts,setPopularProducts] = useState([]);
+    const {popularProducts,setPopularProducts} = useContext(ShopProductsContext)
     const backendURL=process.env.REACT_APP_BACKEND_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
     useEffect(()=>{
       fetch(`${backendURL}/Product/popular/men`)
       .then((res)=>res.json())
       .then((data)=>setPopularProducts(data))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[backendURL])
   return (
     <div className='popular'>

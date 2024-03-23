@@ -3,9 +3,13 @@ import {Link} from 'react-router-dom'
 import './Breadcrum.css'
 import arrow_icon from '../Assets/breadcrum_arrow.png'
 import { ShopContext } from '../../Context/ShopContext'
+import { ShopProductsContext } from '../../Context/ShopProductsContext'
 const Breadcrum = (props) => {
-    const {product} = props;
     const {setMenu} = useContext(ShopContext)
+    const {productid} = props;
+    const {products,newCollection,popularProducts} = useContext(ShopProductsContext)
+    console.log(productid + " id product choosed")
+    const product = products.find((e)=>e.id===Number(productid)) || newCollection.find((e)=>e.id===Number(productid)) || popularProducts.find((e)=>e.id===Number(productid))
     useEffect(() => {
       if (product.category === "women") {
           setMenu("Women");

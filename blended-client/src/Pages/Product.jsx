@@ -16,8 +16,8 @@ const Product = () => {
   
   return (
     <div className='products'>
-      <Breadcrum product={product}/>
-      <ProductDisplay product={product}/>
+      <Breadcrum product={product} productid={productid}/>
+      <ProductDisplay product={product} productid={productid}/>
       <RelatedProducts/>
     </div>
   )

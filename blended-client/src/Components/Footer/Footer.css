@@ -62,6 +62,15 @@
     background: #c7c7c7;
 }
 
+@media (max-width:1280px) {
+    .footer-logo img{
+        height: 100px;
+        width: 100px;
+    }
+    .footer-logo p{
+        font-size: 40px;
+    }
+}
 
 @media (max-width: 800px) {
     .footer{
@@ -73,7 +82,8 @@
         align-items: end;
     }
     .footer-logo img{
-        width: 40px;
+        height: 60px;
+        width: 60px;
     }
 
     .footer-logo p{
