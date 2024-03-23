@@ -5,6 +5,7 @@
 1. Product duplicate when switching between navbar shop category links(removed)
 2. Direct product links are not fetching data
 3. When clicking on a product in related products the main image does not change
+4. Can't open products from new collection and popular
 # New Features & Feedback: 
 0. Add reviews option to add reviews
 1. Explore more should render more products (done)
