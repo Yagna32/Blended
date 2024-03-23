@@ -11,7 +11,10 @@
     align-items: center;
     gap: 20px;
 }
-
+.footer-logo img{
+    height: 120px;
+    width: 120px;
+}
 .footer-logo p{
     color: #393939;
     font-size: 46px;

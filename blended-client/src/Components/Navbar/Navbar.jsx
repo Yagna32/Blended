@@ -28,7 +28,7 @@ const Navbar = () => {
         <div className='nav-logo'>
             <NavLink to='/' className='nav-link'>
             <img src={logo} alt="" />
-            <p>Blended</p></NavLink>
+            <p>BLENDED</p></NavLink>
         </div>
         <img className='nav-dropdown'src={nav_dropdown} onClick={dropdown_toggle} alt="" />
         <ul ref={menuRef} className='nav-menu'>

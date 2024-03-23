@@ -19,11 +19,14 @@
 }
 
 .nav-logo p {
-    color: black;
+    /* color: black;
     font-family: "Amatic SC";
-    /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 55px;
-    font-weight: 600;
+    font-weight: 600; */
+    color: #393939;
+    font-size: 46px;
+    font-weight: 700;
 }
 
 .nav-menu {

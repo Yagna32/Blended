@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect} from 'react'
 import './css/ShopCategory.css'
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
 import Item from '../Components/Item/Item'
+// import { ShopContext } from '../Context/ShopContext'
+import { ShopProductsContext } from '../Context/ShopProductsContext'
 const ShopCategory = (props) => {
-  const [products,setProducts] = useState([])
-  const [page,setPage]=useState({"men":1,"women":1,"kid":1})
-  const [lastPageFetched,setLastPageFetched]=useState({"men":0,"women":0,"kid":0})
+  const {products,setProducts,page,setPage,lastPageFetched,setLastPageFetched} = useContext(ShopProductsContext)
   const backendURL=process.env.REACT_APP_BACKEND_URL;
   useEffect(()=>{
-    console.log(lastPageFetched,page[props.category])
+    console.log(lastPageFetched)
     if(lastPageFetched[props.category]===page[props.category]) {
       return ;
     }
@@ -25,7 +25,6 @@ const ShopCategory = (props) => {
   const addPage = (category) => {
     setPage((prev)=>({...prev,[category]:prev[category]+1}))
   }
-
   if (products.length===0) {  
     // Handle loading state here if needed
     return <div>Loading...</div>;
@@ -36,7 +35,7 @@ const ShopCategory = (props) => {
         <img className="shopcategory-banner"src={props.banner} alt="" />
         <div className="shopcategory-indexSort">
           <p>
-            <span>Showing 1-12</span> out of 36 Products
+            <span>Showing 1-{products.filter(obj => obj.category === props.category).length}</span> out of 36 Products
           </p>
           <div className="shopcategory-sort">
             Sort by <img src={dropdown_icon} alt="" />

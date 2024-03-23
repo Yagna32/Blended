@@ -7,14 +7,19 @@ import remove_icon from '../Assets/cart_cross_icon.png'
 const CartItems = () => {
     const ctxValue = useContext(ShopContext)
     const backendURL=process.env.REACT_APP_BACKEND_URL; 
-
+    let cart = []
     const formatCart = () => {
-        const cart = []
-        ctxValue.all_product.map((item1)=>{
-            if(ctxValue.cartItems.find(item2=>item1.id === item2.product_id)){
-                cart.push({id:item1.id,name:item1.name,price:item1.new_price,quantity:ctxValue.getQuantity(item1.id)})
+        // ctxValue.all_product.map((item1)=>{
+        //     if(ctxValue.cartItems.find(item2=>item1.id === item2.product_id)){
+        //         cart.push({id:item1.id,name:item1.name,price:item1.new_price,quantity:ctxValue.getQuantity(item1.id)})
+        //     }
+        //     return null
+        // })
+        ctxValue.cartItems.forEach((item)=>{
+            console.log(ctxValue.cartItems)
+            if(!cart.find(obj=>obj.id===item.product_id)) {
+                cart.push({id:item.product_id,name:item.name,image:item.image,price:item.price,quantity:ctxValue.getQuantity(item.product_id)})
             }
-            return null
         })
         console.log(cart)
         return cart;
@@ -53,7 +58,7 @@ const CartItems = () => {
             <p>Remove</p>
         </div>
         <hr />
-        {ctxValue.all_product.map((item1)=>{
+        {/* {ctxValue.all_product.map((item1)=>{
             if(ctxValue.cartItems.find(item2=>item1.id === item2.product_id)){
                 return (
             <div key={item1.id}>
@@ -69,6 +74,19 @@ const CartItems = () => {
                 )
             }
             return null
+        })} */}
+        {cart.map((item)=>{
+            return (
+            <div key={item.id}>
+                <div className="cartitems-format cartitems-format-main">
+                    <img src={item.image} className='carticon-product-icon'alt="" />
+                    <p>{item.name}</p>
+                    <p>${item.price}</p>
+                    <button className='cartitems-quantity'> {ctxValue.getQuantity(item.id)}</button>
+                    <p>${item.price*ctxValue.getQuantity(item.id)}</p>
+                    <img className='cartitems-remove-icon'src={remove_icon} onClick={()=>{ctxValue.removeFromCart(item.id,item.price)}}alt="" />
+                </div>
+            </div>)
         })}
         <div className="cartitems-down">
             <div className="cartitems-total">

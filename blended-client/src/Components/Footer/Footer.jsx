@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.css'
-import footer_logo from '../Assets/logo_big.png'
+import footer_logo from '../Assets/black_logo.png'
 import github_icon from '../Assets/icons8-github-48.png'
 import email_icon from '../Assets/icons8-email-48.png'
 import linkedin_icon from '../Assets/icons8-linkedin-48.png'
@@ -10,7 +10,7 @@ const Footer = () => {
     <div className='footer'>
         <div className='footer-logo'>
             <img src={footer_logo} alt="" />
-            <p>SHOPPER</p>
+            <p>BLENDED</p>
         </div>
         <ul className="footer-links">
             <li>Company</li>

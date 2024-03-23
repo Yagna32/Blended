@@ -3,16 +3,10 @@ import React, { createContext, useEffect, useState } from "react";
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props)=>{
-
-    const [all_product,setAll_Product] = useState([]);
     const [cartItems,setCartItems] = useState([]);
     const [menu,setMenu] = useState('Shop')
-    
     const backendURL=process.env.REACT_APP_BACKEND_URL;//process.env.REACT_APP_BACKEND_LOCAL_URL
     useEffect(()=>{
-        fetch(`${backendURL}/Product/allProducts`)
-        .then((res)=>res.json())
-        .then((data)=>{setAll_Product(data);console.log(data)})
         const fetchData = async () => {
             const tokensValid = await checkTokens();
             if (tokensValid) {
@@ -29,24 +23,10 @@ const ShopContextProvider = (props)=>{
                 if (cartData) {
                     setCartItems(cartData);
                 }
-                console.log(cartData);
             }
         };
     
         fetchData();
-            //checkTokens().then(data=>{if(data===true){
-            //     fetch('http://localhost:4000/api/v1/Cart/getCart',{
-            //     method:'GET',
-            //     headers:{
-            //         Accept:'application/form-data',
-            //         'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
-            //         'refresh-token':`${localStorage.getItem('refresh-token')}`,
-            //         'Content-Type':'application/json'
-            //     }
-            // })
-            // .then((res)=>res.json())
-            // .then((data)=>{if(data){setCartItems(data)};console.log(data)})
-            // }})
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -107,7 +87,7 @@ const ShopContextProvider = (props)=>{
     }
 
 
-    const addToCart = async (itemId, price) => {
+    const addToCart = async (itemId, price, mainImage, name) => {
         const result = await checkTokens();
         if (result === true) {
             try {
@@ -119,7 +99,7 @@ const ShopContextProvider = (props)=>{
                         'refresh-token': `${localStorage.getItem('refresh-token')}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ itemId: itemId, price: price })
+                    body: JSON.stringify({ itemId: itemId, name:name, price: price,image:mainImage })
                 });
     
                 if (!response.ok) {
@@ -137,24 +117,6 @@ const ShopContextProvider = (props)=>{
         }
     };
     
-    // const addToCart = async(itemId,price)=>{    
-    //     const result = await checkTokens()
-    //     if(result===true) {
-    //     fetch('http://localhost:4000/api/v1/Cart/addtoCart',{
-    //         method:'POST',
-    //         headers:{
-    //             Accept:'application/form-data',
-    //             'authorization': `Bearer ${localStorage.getItem('access-token')}`,
-    //             'refresh-token':`${localStorage.getItem('refresh-token')}`,
-    //             'Content-Type':'application/json'
-    //         },
-    //         body:JSON.stringify({"itemId":itemId,"price":price})
-    //     })
-    //     .then((res)=>res.json())
-    //     .then((data)=>setCartItems(data)) 
-    // }
-    // }
-
     const removeFromCart = async (itemId, price) => {
         const result = await checkTokens();
         if (result === true) {
@@ -182,28 +144,6 @@ const ShopContextProvider = (props)=>{
         }
     };
     
-    // const removeFromCart = (itemId,price)=>{
-    //     checkTokens().then(data=>{
-    //         if(data===true) {
-    //             fetch('http://localhost:4000/api/v1/Cart/removeFromCart',{
-    //             method:'POST',
-    //             headers:{
-    //                 Accept:'application/form-data',
-    //                 'Authorization': `Bearer ${localStorage.getItem('access-token')}`,
-    //                 'refresh-token':`${localStorage.getItem('refresh-token')}`,
-    //                 'Content-Type':'application/json'
-    //             },
-    //             body:JSON.stringify({"itemId":itemId,"price":price})
-    //         })
-    //         .then((res)=>{
-    //             return res.json()})
-    //             .then((data)=>{
-    //                 setCartItems(data)
-    //             })
-     
-    //         }})
-    // }
-
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         if(cartItems.length > 0) {
@@ -233,8 +173,7 @@ const ShopContextProvider = (props)=>{
         return totalItem;
     }
 
-
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,getQuantity,checkTokens,menu,setMenu};
+    const contextValue = {getTotalCartItems,getTotalCartAmount,cartItems,setCartItems,addToCart,removeFromCart,getQuantity,checkTokens,menu,setMenu};
 
     return (
         <ShopContext.Provider value={contextValue} >
