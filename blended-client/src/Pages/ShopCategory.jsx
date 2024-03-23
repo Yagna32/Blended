@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import './css/ShopCategory.css'
-// import { ShopContext } from '../Context/ShopContext'
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
 import Item from '../Components/Item/Item'
 const ShopCategory = (props) => {
-  // const {all_product} = useContext(ShopContext);
   const [products,setProducts] = useState([])
   const [page,setPage]=useState({"men":1,"women":1,"kid":1})
+  const [lastPageFetched,setLastPageFetched]=useState({"men":0,"women":0,"kid":0})
   const backendURL=process.env.REACT_APP_BACKEND_URL;
   useEffect(()=>{
+    console.log(lastPageFetched,page[props.category])
+    if(lastPageFetched[props.category]===page[props.category]) {
+      return ;
+    }
     const fetchPages = ()=>{
       fetch(`${backendURL}/Product/${props.category}?page=${page[props.category]}`)
       .then((res)=>res.json())
-      .then((data)=>setProducts((prev)=>[...prev,...data]))
+      .then((data)=>{setProducts((prev)=>[...prev,...data]);setLastPageFetched((prev)=>({...prev,[props.category]:prev[props.category]+1}))})
       .catch((error)=>console.log(error))
     } 
     fetchPages();
-  },[backendURL,props.category,page])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[backendURL,props.category,page]) //Intenstionally not passing lastPageFetched so it doesn't get into infinite loop
 
   const addPage = (category) => {
     setPage((prev)=>({...prev,[category]:prev[category]+1}))
@@ -39,7 +43,6 @@ const ShopCategory = (props) => {
           </div>
         </div>
         <div className="shopcategory-products">
-          {/* {all_product.map((item,i)=>{ */}
             {products && products.map((item,i)=>{
             if(props.category === item.category) {
               return <Item key={i} id={item.id} name={item.name} image={item.image[0]} new_price={item.new_price} old_price={item.old_price}/>
