@@ -1,5 +1,14 @@
-﻿# Shopper V1
+﻿# Blended V1
 
+Live Project: https://blended-client.vercel.app
+
+Note: This is an old repository that is updated periodically.
+
+Actual Live Code Repositories:
+
+- Server: https://github.com/Yagna32/blended-server
+- Client: https://github.com/Yagna32/blended-client
+- Admin: https://github.com/Yagna32/blended-admin
 # Bugs: 
 0. requests are slower taking 200ms to 700ms on render takes about 20ms to 100ms in local host
 1. Product duplicate when switching between navbar shop category links(removed)
